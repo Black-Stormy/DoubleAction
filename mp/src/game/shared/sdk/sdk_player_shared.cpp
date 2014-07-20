@@ -1759,6 +1759,8 @@ Vector CSDKPlayer::EyePosition()
 {
 	Vector vecPosition = BaseClass::EyePosition();
 
+	Assert(vecPosition.IsValid());
+
 	bool bIsInThird = false;
 
 #ifdef CLIENT_DLL
@@ -1798,6 +1800,8 @@ Vector CSDKPlayer::EyePosition()
 
 		vecPosition += vecRight * flRightBob + vecUp * flUpBob;
 	}
+
+	Assert(vecPosition.IsValid());
 
 	return vecPosition;
 }
