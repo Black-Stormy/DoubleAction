@@ -1,15 +1,9 @@
 #pragma once
 
 // Keep this as just a number and increment it, don't do '12a' or '12.2' or atoi() will break.
-#define DA_VERSION "3"
+#define DA_VERSION "4"
 
 #define PANEL_FOLDER "folder"
-
-#define SDK_DEFAULT_PLAYER_RUNSPEED    230
-#define SDK_DEFAULT_PLAYER_SPRINTSPEED 330
-#define SDK_DEFAULT_PLAYER_PRONESPEED  100
-#define SDK_DEFAULT_PLAYER_SLIDESPEED  320
-#define SDK_DEFAULT_PLAYER_ROLLSPEED   200
 
 typedef enum
 {
