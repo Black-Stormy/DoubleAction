@@ -1085,8 +1085,8 @@ void CWeaponDABase::AddViewKick()
 
 			if (HasAimInRecoilBonus())
 			{
-				flPunchBonus = RemapValClamped(flAimIn, 0, 1, 1, 0.2f);
-				flRecoilBonus = RemapValClamped(flAimIn, 0, 0.8f, 1, 0.2f);
+				flPunchBonus = RemapValClamped(flAimIn, 0, 1, 1, 0.4f);
+				flRecoilBonus = RemapValClamped(flAimIn, 0, 0.8f, 1, 0.5f);
 			}
 			else
 			{
