@@ -947,7 +947,7 @@ void CDAPlayer::Precache()
 	PrecacheParticleSystem( "tracer_bullet" );
 	PrecacheParticleSystem( "style_active_bouncer" );
 	PrecacheParticleSystem( "style_active_athletic" );
-	PrecacheParticleSystem( "grenade_exp1_trail1" );
+	PrecacheParticleSystem( "player_lvlup" );
 
 	BaseClass::Precache();
 }
@@ -4146,7 +4146,15 @@ void CDAPlayer::ActivateMeter()
 	if (!IsAlive())
 		return;
 
-	DispatchParticleEffect("grenade_exp1_trail1", CBasePlayer::GetAbsOrigin(), CBasePlayer::GetAbsAngles());
+	DispatchParticleEffect("player_lvlup", CBasePlayer::GetAbsOrigin(), CBasePlayer::GetAbsAngles()); // a particle effect to let other players know our style skill has been activated - precached above - stormy
+	
+	/*
+	// trying to make an overlay or glow around the player when their style skill activates
+	// to sell the particle effect a bit more as a HUD element - stormy
+	SetRenderMode(kRenderGlow);
+	SetRenderColorA(255); // just to be safe
+	SetRenderColor(255, 186, 0); // make an overlay colour as the style skill activates
+	*/
 
 	m_flStylePoints = 0;
 
