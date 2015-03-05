@@ -146,7 +146,7 @@ bool CWeaponShotgun::Reload()
 				pPlayer->RemoveAmmo( 1, m_iPrimaryAmmoType );
 		}
 
-		if ( pPlayer->GetAmmoCount( m_iPrimaryAmmoType ) <= 0 || m_iClip1 == GetMaxClip1() )
+		if ( pPlayer->GetAmmoCount( m_iPrimaryAmmoType ) < 0 || m_iClip1 == GetMaxClip1() )
 			pPlayer->DoAnimationEvent( PLAYERANIMEVENT_RELOAD_END );
 
 		m_iInSpecialReload = 1;
