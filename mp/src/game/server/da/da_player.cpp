@@ -33,6 +33,7 @@
 #include "dove.h"
 #include "da_datamanager.h"
 #include "da_briefcase.h"
+#include "te_effect_dispatch.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -946,6 +947,7 @@ void CDAPlayer::Precache()
 	PrecacheParticleSystem( "tracer_bullet" );
 	PrecacheParticleSystem( "style_active_bouncer" );
 	PrecacheParticleSystem( "style_active_athletic" );
+	PrecacheParticleSystem( "grenade_exp1_trail1" );
 
 	BaseClass::Precache();
 }
@@ -4143,6 +4145,8 @@ void CDAPlayer::ActivateMeter()
 
 	if (!IsAlive())
 		return;
+
+	DispatchParticleEffect("grenade_exp1_trail1", CBasePlayer::GetAbsOrigin(), CBasePlayer::GetAbsAngles());
 
 	m_flStylePoints = 0;
 
