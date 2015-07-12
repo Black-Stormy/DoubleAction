@@ -62,6 +62,8 @@ void RegisterUserMessages()
 
 	usermessages->Register( "BlinkTimer", 0 );
 
+	usermessages->Register("ShowHitmarker", 1); // stormy Show Hit Marker
+
 #ifndef _X360
 	// NVNT register haptic user messages
 	RegisterHapticMessages();

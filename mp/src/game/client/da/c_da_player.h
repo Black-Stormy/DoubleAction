@@ -51,6 +51,25 @@ public:
 	};
 
 public:
+	// stormy's leaderboards
+	// I have to store these somewhere client-side so I can upload them to steam
+	int ldb_lifetimeKills;
+	int ldb_brawlKills;
+	int ldb_diveshots;
+	int ldb_diveKills;
+	int ldb_divepunchKills;
+	int ldb_divepunches;
+	int ldb_slideshots;
+	int ldb_slideKills;
+	int ldb_slidepunchKills;
+	int ldb_slidepunches;
+	int ldb_headshotKills;
+	int ldb_headshots;
+	int lbd_punchesThrown;
+	int ldb_punchesLanded;
+	int ldb_totalStyle;
+
+
 	DECLARE_CLASS( C_DAPlayer, C_BasePlayer );
 	DECLARE_CLIENTCLASS();
 	DECLARE_PREDICTABLE();

@@ -110,6 +110,25 @@ public:
 	virtual void        OnDamagedByExplosion( const CTakeDamageInfo &info );
 	virtual void SetKilledByString( string_t sKilledBy );
 
+	// stormy's leaderboards - ldb_ prefix for leaderboards
+	// these will be incremented throughout gameplay, and then uploaded all at once
+	int ldb_lifetimeKills;
+	int ldb_brawlKills;
+	int ldb_diveshots;
+	int ldb_diveKills;
+	int ldb_divepunchKills;
+	int ldb_divepunches;
+	int ldb_slideshots;
+	int ldb_slideKills;
+	int ldb_slidepunchKills;
+	int ldb_slidepunches;
+	int ldb_headshotKills;
+	int ldb_headshots;
+	int lbd_punchesThrown;
+	int ldb_punchesLanded;
+	int ldb_totalStyle;
+
+
 	virtual bool        FVisible(CBaseEntity* pEntity, int iTraceMask = MASK_OPAQUE, CBaseEntity** ppBlocker = NULL);
 	virtual bool        IsVisible(const Vector &pos, bool testFOV = false, const CBaseEntity *ignore = NULL) const;	///< return true if we can see the point
 	virtual bool        IsVisible(CDAPlayer* pPlayer, bool testFOV = false, unsigned char* visParts = NULL) const;

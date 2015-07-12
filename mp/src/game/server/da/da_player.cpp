@@ -2030,6 +2030,15 @@ void CDAPlayer::AwardStylePoints(CDAPlayer* pVictim, bool bKilledVictim, const C
 
 	if (bKilledVictim)
 	{
+		// increment our leaderboard variable
+		ldb_lifetimeKills++;
+
+		// if we brawlkilled someone while not stunting
+		if (info.GetDamageType() == DMG_CLUB && !m_Shared.IsDiving() && !m_Shared.IsSliding() && !m_Shared.IsSuperFalling()){
+			ldb_brawlKills++;
+		}
+
+
 		// Give me a quarter of the activation cost. I'll get another quarter from damaging.
 		flPoints = da_stylemeteractivationcost.GetFloat()/4;
 	}
@@ -2109,12 +2118,20 @@ void CDAPlayer::AwardStylePoints(CDAPlayer* pVictim, bool bKilledVictim, const C
 
 	else if (pVictim->LastHitGroup() == HITGROUP_HEAD)
 	{
-		if (bKilledVictim)
+		if (bKilledVictim){ // KILLED VIA HEADSHOT
+			// increment our leaderboard variable
+			ldb_headshotKills++;
+
 			AddStylePoints(flPoints, STYLE_SOUND_LARGE, ANNOUNCEMENT_HEADSHOT, STYLE_POINT_STYLISH);
 			// check if we flipped off the victim and if so trigger an achievement -stormy
 			// increment the headshot kills stat -stormy
-		else
+		}
+		else{ // HEADSHOT NO KILL
+			// increment our leaderboard variable
+			ldb_headshots++;
+
 			AddStylePoints(flPoints, STYLE_SOUND_LARGE, ANNOUNCEMENT_HEADSHOT, STYLE_POINT_LARGE);
+		}
 	}
 	else if (m_Shared.IsDiving() || m_Shared.IsWallFlipping(true) || m_Shared.IsSliding())
 	{
@@ -2130,6 +2147,9 @@ void CDAPlayer::AwardStylePoints(CDAPlayer* pVictim, bool bKilledVictim, const C
 				{ 
 					AddStylePoints(flPoints, STYLE_SOUND_KNOCKOUT, ANNOUNCEMENT_DIVEPUNCH, STYLE_POINT_STYLISH);
 					
+					// increment our leaderboard variable
+					ldb_divepunchKills++;
+
 					// send divepunch achievement event to client -stormy
 					// create our divepunch event
 					IGameEvent * event_DIVEPUNCHKILL = gameeventmanager->CreateEvent("DIVEPUNCHKILL"); 
@@ -2169,32 +2189,61 @@ void CDAPlayer::AwardStylePoints(CDAPlayer* pVictim, bool bKilledVictim, const C
 
 
 				}
-				else // DIVEPUNCH NO KILL
+				else {
+					// DIVEPUNCH NO KILL
+					
+					// increment our leaderboard variable
+					ldb_divepunches++;
+
+
 					AddStylePoints(flPoints, STYLE_SOUND_LARGE, ANNOUNCEMENT_DIVEPUNCH, STYLE_POINT_LARGE);
+				}
 			}
 			else
 			{
-				if (bKilledVictim)
+				if (bKilledVictim){ // DIVEKILL
+					// increment our leaderboard variable
+					ldb_diveKills++;
 					AddStylePoints(flPoints, STYLE_SOUND_LARGE, ANNOUNCEMENT_DIVE_KILL, STYLE_POINT_STYLISH);
-				else
-					AddStylePoints(flPoints, m_Shared.IsSuperFalling() ? STYLE_SOUND_LARGE : STYLE_SOUND_SMALL, ANNOUNCEMENT_DIVE, m_Shared.IsSuperFalling()?STYLE_POINT_STYLISH:STYLE_POINT_LARGE);
+				}
+				else { // DIVESHOT NO KILL
+					// increment our leaderboard variable
+					ldb_diveshots++;
+					AddStylePoints(flPoints, m_Shared.IsSuperFalling() ? STYLE_SOUND_LARGE : STYLE_SOUND_SMALL, ANNOUNCEMENT_DIVE, m_Shared.IsSuperFalling() ? STYLE_POINT_STYLISH : STYLE_POINT_LARGE);
+				}
 			}
 		}
 		else if (m_Shared.IsSliding())
 		{
 			if (info.GetDamageType() == DMG_CLUB)
 			{
-				if (bKilledVictim)
+				if (bKilledVictim) { //SLIDEPUNCHKILL
+
+					// increment our leaderboard variable
+					ldb_slidepunchKills++;
+
 					AddStylePoints(flPoints, STYLE_SOUND_KNOCKOUT, ANNOUNCEMENT_SLIDEPUNCH, STYLE_POINT_STYLISH);
-				else
+				}
+				else { //SLIDEPUNCH NO KILL
+
+					// increment our leaderboard variable
+					ldb_slidepunches++;
+
 					AddStylePoints(flPoints, STYLE_SOUND_LARGE, ANNOUNCEMENT_SLIDEPUNCH, STYLE_POINT_LARGE);
+				}
 			}
 			else
 			{
-				if (bKilledVictim)
+				if (bKilledVictim) { //SLIDE KILL
+					// increment our leaderboard variable
+					ldb_slideKills++;
 					AddStylePoints(flPoints, STYLE_SOUND_LARGE, ANNOUNCEMENT_SLIDE_KILL, STYLE_POINT_STYLISH);
-				else
+				}
+				else { //SLIDE SHOT NO KILL
+					// increment our leaderboard variable
+					ldb_slideshots++;
 					AddStylePoints(flPoints, STYLE_SOUND_SMALL, ANNOUNCEMENT_SLIDE, STYLE_POINT_LARGE);
+				}
 			}
 		}
 		else
@@ -4056,6 +4105,9 @@ void CDAPlayer::AddStylePoints(float points, style_sound_t eStyle, announcement_
 	points *= GetDKRatio(0.7, 2, true);
 
 	m_flTotalStyle += points;
+
+	// increment our leaderboard total style variable
+	ldb_totalStyle += points;
 
 #ifdef WITH_DATA_COLLECTION
 	DataManager().AddStyle(this, points);

@@ -43,6 +43,7 @@ public:
 
 	virtual bool WeaponSpreadFixed() const { return true; }
 	virtual bool FullAimIn() { return true; }
+	void DrawHitmarker(void);
 
 private:
 

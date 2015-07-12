@@ -33,6 +33,8 @@
 	#include "da_briefcase.h"
 	#include "vote_controller.h"
 	#include "da_datamanager.h"
+	#include "../steam/isteamuserstats.h"
+	#include "../steam/steam_api.h"	
 
 #endif
 
@@ -670,13 +672,56 @@ void CDAGameRules::GoToIntermission( void )
 {
 	BaseClass::GoToIntermission();
 
-	// set all players to FL_FROZEN
+	// cycle through each player and do stuff to them
 	for ( int i = 1; i <= MAX_PLAYERS; i++ )
 	{
 		CBasePlayer *pPlayer = UTIL_PlayerByIndex( i );
 
 		if ( pPlayer )
 		{
+			//CDAPlayer *DAPlayer = ToDAPlayer(pPlayer);
+			// upload all leaderboard stats here - stormy
+
+			// can't do it on the server, so we're sending it to the client in an event
+			// each client will upload their own leaderboard data via the steamapicontext
+			// I'm going to tack the leaderboard event handling on the ass of the achievements file
+
+			//steamapicontext->SteamUserStats().FindOrCreateLeaderboard("ldb_lifetimeKills", k_ELeaderboardSortMethodDescending, false);
+
+			DevMsg("about to create leaderboard event \n");
+			IGameEvent * event_DA_LEADERBOARD = gameeventmanager->CreateEvent("event_ldb");
+			if (event_DA_LEADERBOARD)
+			{
+				DevMsg("leaderboard event created successfully\n");
+				// set our current players userID to send to the client for comparison
+				event_DA_LEADERBOARD->SetInt("userid", pPlayer->GetUserID());
+				/*
+				event_DA_LEADERBOARD->SetInt("ldb_lifetimeKills", DAPlayer->ldb_lifetimeKills);
+				event_DA_LEADERBOARD->SetInt("ldb_brawlKills", DAPlayer->ldb_brawlKills);
+				event_DA_LEADERBOARD->SetInt("ldb_diveshots", DAPlayer->ldb_diveshots);
+				event_DA_LEADERBOARD->SetInt("ldb_diveKills", DAPlayer->ldb_diveKills);
+				event_DA_LEADERBOARD->SetInt("ldb_divepunchKills", DAPlayer->ldb_divepunchKills);
+				event_DA_LEADERBOARD->SetInt("ldb_divepunches", DAPlayer->ldb_divepunches);
+				event_DA_LEADERBOARD->SetInt("ldb_slideshots", DAPlayer->ldb_slideshots);
+				event_DA_LEADERBOARD->SetInt("ldb_slideKills", DAPlayer->ldb_slideKills);
+				event_DA_LEADERBOARD->SetInt("ldb_slidepunchKills", DAPlayer->ldb_slidepunchKills);
+				event_DA_LEADERBOARD->SetInt("ldb_slidepunches", DAPlayer->ldb_slidepunches);
+				event_DA_LEADERBOARD->SetInt("ldb_headshotKills", DAPlayer->ldb_headshotKills);
+				event_DA_LEADERBOARD->SetInt("ldb_headshots", DAPlayer->ldb_headshots);
+				event_DA_LEADERBOARD->SetInt("lbd_punchesThrown", DAPlayer->lbd_punchesThrown);
+				event_DA_LEADERBOARD->SetInt("ldb_punchesLanded", DAPlayer->ldb_punchesLanded);
+				event_DA_LEADERBOARD->SetInt("ldb_totalStyle", DAPlayer->ldb_totalStyle);
+				*/
+
+
+				// send that bitch
+				gameeventmanager->FireEvent(event_DA_LEADERBOARD);
+			}else
+				DevMsg("failed to create leaderboard event \n");
+
+			
+
+			// set all players to FL_FROZEN
 			pPlayer->AddFlag( FL_FROZEN );
 		}
 	}

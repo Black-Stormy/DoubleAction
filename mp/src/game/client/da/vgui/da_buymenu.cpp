@@ -179,6 +179,10 @@ void CDABuyMenu::OnCommand( const char *command )
 		if (C_DAPlayer::GetLocalDAPlayer() && !C_DAPlayer::GetLocalDAPlayer()->IsAlive())
 			GetFolderMenu()->ShowPage( PANEL_BUY_EQUIP_CT );
 	}
+
+
+	if (FStrEq(command, "stormy"))
+		DevMsg("stoooooooooooooooooooooooooooormy");
 }
 
 void CDABuyMenu::OnThink( void )
@@ -251,6 +255,18 @@ void CDABuyMenu::Update()
 	m_apWeights.RemoveAll();
 	m_apCheckMarks.RemoveAll();
 
+	// stormy tries to do a thing
+
+/*	const char wpnTypes[8] = { "PISTOL", "SMG", "SHOTGUN", "RIFLE", "BRAWL" };
+
+	for (int i = 0; i < 5; i++){
+		
+
+	}
+*/
+	// end the stormy trainwreck
+
+
 	CUtlVector<CWeaponButton*> apWeaponButtons;
 
 	for ( int i = 0 ; i < GetChildCount() ; ++i )
@@ -260,7 +276,7 @@ void CDABuyMenu::Update()
 
 		if (!pPanel)
 			continue;
-
+		
 		if (pPanel->GetWeaponID() != WEAPON_NONE)
 			apWeaponButtons.AddToTail(pPanel);
 
