@@ -2523,6 +2523,7 @@ int PlayerKDCompare(CDAPlayer*const* l, CDAPlayer*const* r)
 bool CDAGameRules::SetupMiniObjective_Bounty()
 {
 	// Find a player with a high K:D ratio.
+	// let's try low K:D ratio -stormy
 
 	CUtlVector<CDAPlayer*> apPlayers;
 
@@ -2565,6 +2566,7 @@ bool CDAGameRules::SetupMiniObjective_Bounty()
 		return false;
 
 	apPlayers.Sort(&PlayerKDCompare);
+	apPlayers.Sort(apPlayers.begin < apPlayers.end); // stormy
 
 	if (iPlayingPlayers <= 6)
 	{
