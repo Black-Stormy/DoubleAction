@@ -368,8 +368,35 @@ void CFolderMenu::Update()
 		else if (pWeaponInfo)
 		{
 			KeyValues* pAnimation = pValues->FindKey("animation");
+
+			/* 
+			   This little part defines what animation the player model will play on the buy menu
+			   since I can't find the working shared anims file (or at least can't get it to compile properly
+			   I am placing this dirty ass ahrd coded comparison in here to get the menu animations to play right 
+			   for weapons I have added. In the future, when I get the shared anims to compile properly again, 
+			   I'll need to take this out in order to allow the sequences "plan_d_idle" and "drugs_idle" etc.
+			   it's 2am and I need to get up at 6.30 BUT I FIXED IT // stormy
+			*/
+
 			if (pAnimation)
-				pAnimation->SetString("sequence", VarArgs("%s_idle", WeaponIDToAlias(eFirst)));
+			{
+				const char *stm_pland = "plan_d";
+				const char *stm_drugs = "drugs";
+				const char *WPNalias = WeaponIDToAlias(eFirst); // do some nasty type conversions
+
+				if (WPNalias == stm_pland) // match the wpnAlias of the selected weapon to my string
+				{
+					pAnimation->SetString("sequence", "idle"); // manually override the sequence
+				}
+				else if(WPNalias == stm_drugs) // match the wpnAlias of the selected weapon to my string
+				{
+					pAnimation->SetString("sequence", "idle"); // manually override the sequence
+				}
+				else
+				{
+					pAnimation->SetString("sequence", VarArgs("%s_idle", WeaponIDToAlias(eFirst))); // else play the prefixed [WPNalias]_idle sequence
+				}
+			}
 
 			KeyValues* pWeapon = pValues->FindKey("attached_model");
 			if (pWeapon)
