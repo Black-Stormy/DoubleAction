@@ -922,7 +922,16 @@ void CDAPlayer::Precache()
 	PrecacheScriptSound( "HudMeter.FillStylish" );
 	PrecacheScriptSound( "HudMeter.Knockout" );
 
-	PrecacheScriptSound( "MiniObjective.Begin" );
+	PrecacheScriptSound("MiniObjective.Begin");
+	PrecacheScriptSound("MiniObjective.BriefcasePickup");
+	PrecacheScriptSound("MiniObjective.BriefcaseDrop");
+	PrecacheScriptSound("MiniObjective.BriefcaseCapture");
+	PrecacheScriptSound("MiniObjective.FirstWaypoint");
+	PrecacheScriptSound("MiniObjective.SecondWaypoint");
+	PrecacheScriptSound("MiniObjective.WinRace");
+	PrecacheScriptSound("MiniObjective.LoseRace");
+
+	PrecacheScriptSound("MiniObjective.BountyKilled");
 
 	PrecacheScriptSound( "Weapon_Brawl.PunchHit" );
 

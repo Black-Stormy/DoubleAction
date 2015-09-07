@@ -2352,6 +2352,8 @@ void CDAGameRules::GiveMiniObjectiveRewardTeam(CDAPlayer* pTeam)
 
 void CDAGameRules::GiveMiniObjectiveRewardPlayer(CDAPlayer* pPlayer)
 {
+	CDAPlayer::SendBroadcastSound("MiniObjective.WinRace");
+
 	pPlayer->m_Shared.m_bSuperSkill = true;
 
 	ConVarRef da_stylemeteractivationcost("da_stylemeteractivationcost");
@@ -2566,7 +2568,7 @@ bool CDAGameRules::SetupMiniObjective_Bounty()
 		return false;
 
 	apPlayers.Sort(&PlayerKDCompare);
-	apPlayers.Sort(apPlayers.begin < apPlayers.end); // stormy
+//	apPlayers.Sort(apPlayers.begin < apPlayers.end); // stormy
 
 	if (iPlayingPlayers <= 6)
 	{
@@ -2784,13 +2786,15 @@ void CDAGameRules::PlayerReachedWaypoint(CDAPlayer* pPlayer, CRatRaceWaypoint* p
 
 		if (pPlayer->m_iRaceWaypoint == 1)
 		{
+			CDAPlayer::SendBroadcastSound("MiniObjective.FirstWaypoint");
+
 			if (!m_ahWaypoint2RaceLeaders[0] && !m_ahWaypoint1RaceLeaders[0])
 			{
-				CDAPlayer::SendBroadcastSound("MiniObjective.Begin");
 				CDAPlayer::SendBroadcastNotice(NOTICE_RATRACE_PLAYER_LEAD, pPlayer);
 			}
 			else
 			{
+
 				CSingleUserRecipientFilter filter(pPlayer);
 				filter.MakeReliable();
 
@@ -2807,9 +2811,10 @@ void CDAGameRules::PlayerReachedWaypoint(CDAPlayer* pPlayer, CRatRaceWaypoint* p
 		}
 		else if (pPlayer->m_iRaceWaypoint == 2)
 		{
+			CDAPlayer::SendBroadcastSound("MiniObjective.SecondWaypoint");
+
 			if (!m_ahWaypoint2RaceLeaders[0])
 			{
-				CDAPlayer::SendBroadcastSound("MiniObjective.Begin");
 				CDAPlayer::SendBroadcastNotice(NOTICE_RATRACE_PLAYER_POINT_2, pPlayer);
 			}
 			else
@@ -2831,6 +2836,7 @@ void CDAGameRules::PlayerReachedWaypoint(CDAPlayer* pPlayer, CRatRaceWaypoint* p
 		}
 		else if (pPlayer->m_iRaceWaypoint == 3)
 		{
+			CDAPlayer::SendBroadcastSound("MiniObjective.WinRace");
 			CDAPlayer::SendBroadcastNotice(NOTICE_RATRACE_OVER, pPlayer);
 			GiveMiniObjectiveRewardPlayer(pPlayer);
 			CleanupMiniObjective();
@@ -2925,7 +2931,8 @@ extern ConVar *sv_cheats;
 
 void CC_MiniObjective(const CCommand &args)
 {
-	if (args.ArgC() > 1)
+	DevMsg("CC_MiniObjective called");
+	if (args.ArgC() >= 1)
 		DAGameRules()->StartMiniObjective(args[1]);
 	else
 		DAGameRules()->StartMiniObjective();
